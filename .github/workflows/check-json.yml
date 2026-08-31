@@ -1,0 +1,51 @@
+name: Check JSON
+
+on:
+  push:
+    paths:
+      - "data/**"
+      - "images/projects/**"
+      - "images/about/**"
+      - "scripts/check_json.py"
+      - ".github/workflows/check-json.yml"
+  pull_request:
+    paths:
+      - "data/**"
+      - "images/projects/**"
+      - "images/about/**"
+      - "scripts/check_json.py"
+      - ".github/workflows/check-json.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: check-json-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  check-and-correct:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the site
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+
+      - name: Check and correct data JSON
+        run: python3 scripts/check_json.py
+
+      - name: Commit corrections
+        if: >
+          github.event_name != 'pull_request'
+          || github.event.pull_request.head.repo.full_name == github.repository
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "fix: correct JSON data files"
+          file_pattern: data/*.json
+          commit_user_name: github-actions[bot]
+          commit_user_email: 41898282+github-actions[bot]@users.noreply.github.com
+
+      - name: Fail if JSON still needs a commit
+        run: git diff --exit-code -- data

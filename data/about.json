@@ -1,0 +1,26 @@
+{
+  "name": "Ishita Saini",
+  "role": "Interior designer",
+  "lead": "Rooms drawn so they can be built — and lived in.",
+  "portrait": "portrait.jpg",
+  "description": [
+    "Practice covers private homes, commercial interiors, 3D visualisation, and construction drawing sets. Work is planned in drawing and model first: layout, light, storage, the path through a space. Palettes stay quiet so joinery and daylight do the work.",
+    "Based in India. Open to studio roles and private commissions."
+  ],
+  "tools": [
+    "AutoCAD",
+    "SketchUp",
+    "V-Ray",
+    "Enscape"
+  ],
+  "links": [
+    {
+      "label": "LinkedIn",
+      "url": "https://www.linkedin.com/in/ishita-s-9a9b94247/"
+    },
+    {
+      "label": "Selected work",
+      "url": "index.html"
+    }
+  ]
+}
