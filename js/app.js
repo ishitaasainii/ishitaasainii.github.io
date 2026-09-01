@@ -254,12 +254,6 @@
       .join("");
 
     var files = [];
-    if (project.cover) {
-      files.push({
-        file: project.cover,
-        alt: coverAlt(project),
-      });
-    }
     (project.images || []).forEach(function (file, n) {
       if (file === project.cover) return;
       files.push({
