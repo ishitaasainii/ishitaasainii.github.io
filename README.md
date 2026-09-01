@@ -29,7 +29,8 @@ Example: for a project called “Lake House”, a good folder name is `lake-hous
 Use ordinary JPG files. Name them exactly as you will write them in the project file, for example:
 
 - `cover.jpg` — the small picture on the homepage list
-- `01.jpg`, `02.jpg`, `03.jpg` — the pictures on the project page (as many as you like)
+- `001.jpg` (any format: `.jpg`, `.jpeg`, `.png`, …) — optional. Shown first on the project page, full width across both columns
+- `01.jpg`, `02.jpg`, `03.jpg` — the remaining pictures, in two columns (as many as you like)
 
 You can replace the grey placeholder pictures that are already in the sample project folders. Keep the same file names and the site will pick up the new photos automatically.
 

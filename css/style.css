@@ -545,12 +545,24 @@ code {
   align-items: start;
 }
 
+.gallery__item {
+  appearance: none;
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: #cfc9bb;
+  cursor: zoom-in;
+}
+
+.gallery__item:focus-visible {
+  outline: 2px solid var(--blueprint);
+  outline-offset: 3px;
+}
+
 .gallery__span {
   grid-column: 1 / -1;
-  width: 100%;
-  height: auto;
-  display: block;
-  background: #cfc9bb;
 }
 
 .gallery__col {
@@ -564,11 +576,103 @@ code {
   display: none;
 }
 
-.gallery__col img {
+.gallery__item img {
   width: 100%;
   height: auto;
   display: block;
-  background: #cfc9bb;
+  pointer-events: none;
+}
+
+body.is-lightbox {
+  overflow: hidden;
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 3.5rem 3.5rem 2.75rem;
+  background: rgba(20, 20, 19, 0.96);
+  color: var(--paper);
+}
+
+.lightbox.is-open {
+  display: flex;
+}
+
+.lightbox__img {
+  max-width: min(96vw, 92rem);
+  max-height: calc(100vh - 5.5rem);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  background: transparent;
+}
+
+.lightbox__close,
+.lightbox__prev,
+.lightbox__next {
+  appearance: none;
+  position: absolute;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font-family: var(--font-mono);
+}
+
+.lightbox__close {
+  top: 0.85rem;
+  right: var(--pad);
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.lightbox__prev,
+.lightbox__next {
+  top: 50%;
+  width: 2.75rem;
+  height: 2.75rem;
+  transform: translateY(-50%);
+  font-family: var(--font-body);
+  font-size: 2.1rem;
+  line-height: 1;
+}
+
+.lightbox__prev {
+  left: 0.35rem;
+}
+
+.lightbox__next {
+  right: 0.35rem;
+}
+
+.lightbox__count {
+  position: absolute;
+  bottom: 0.85rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+}
+
+.lightbox__close:hover,
+.lightbox__prev:hover,
+.lightbox__next:hover {
+  color: #fff;
+}
+
+.lightbox__close:focus-visible,
+.lightbox__prev:focus-visible,
+.lightbox__next:focus-visible {
+  outline: 2px solid var(--paper);
+  outline-offset: 3px;
 }
 
 .project-nav {
@@ -828,6 +932,21 @@ code {
 
   .project-nav a:last-child {
     text-align: left;
+  }
+
+  .lightbox {
+    padding: 3.25rem 0.75rem 2.5rem;
+  }
+
+  .lightbox__prev,
+  .lightbox__next {
+    top: auto;
+    bottom: 0.35rem;
+    transform: none;
+  }
+
+  .lightbox__count {
+    bottom: 0.95rem;
   }
 }
 
