@@ -118,7 +118,8 @@ What each field does:
 - **`portrait`** — file name only. The photo lives in `images/about/`.
 - **`description`** — each quoted line becomes its own paragraph.
 - **`tools`** — software list under the bio.
-- **`links`** — buttons under the bio. Use a full `https://…` address for other sites, or `index.html` for a page on this site.
+- **`resume`** — path to the PDF, for example `images/Ishita.pdf`. This becomes the Download resume button. Replace that file to update the CV.
+- **`links`** — text links under the bio. Use a full `https://…` address for other sites, or `index.html` for a page on this site.
 
 Save the file and refresh the About page.
 

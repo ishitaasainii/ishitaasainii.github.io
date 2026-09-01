@@ -776,6 +776,21 @@ body.is-lightbox {
   margin-top: 0.9rem;
 }
 
+.about__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-top: 1.6rem;
+}
+
+.about__actions .btn {
+  width: fit-content;
+}
+
+.about__actions + .about__cta {
+  margin-top: 1rem;
+}
+
 .about__cta {
   display: flex;
   flex-wrap: wrap;

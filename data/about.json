@@ -20,8 +20,13 @@
       "url": "https://www.linkedin.com/in/ishita-s-9a9b94247/"
     },
     {
+      "label": "Email",
+      "url": "mailto:ishita.saini2542@gmail.com"
+    },
+    {
       "label": "Selected work",
       "url": "index.html"
     }
-  ]
+  ],
+  "resume": "images/Ishita.pdf"
 }

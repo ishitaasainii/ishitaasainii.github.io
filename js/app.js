@@ -497,6 +497,25 @@
       })
       .join("");
 
+    var resumeUrl = about.resume || "";
+    var resumeLabel = about.resumeLabel || "Download resume";
+    var resumeName =
+      about.resumeName ||
+      String(name || "resume").replace(/\s+/g, "-") + "-resume.pdf";
+    var resumeRemote = /^https?:/i.test(resumeUrl);
+    var resumeBtn = resumeUrl
+      ? '<div class="about__actions">' +
+        '<a class="btn btn--solid" href="' +
+        escapeHtml(resumeUrl) +
+        '"' +
+        (resumeRemote
+          ? ' rel="noopener noreferrer" target="_blank"'
+          : ' download="' + escapeHtml(resumeName) + '"') +
+        ">" +
+        escapeHtml(resumeLabel) +
+        "</a></div>"
+      : "";
+
     root.innerHTML =
       '<article class="about">' +
         '<div class="about-hero">' +
@@ -519,6 +538,7 @@
               : "") +
             paragraphs +
             tools +
+            resumeBtn +
             (links ? '<p class="about__cta">' + links + "</p>" : "") +
           "</div>" +
         "</div>" +
