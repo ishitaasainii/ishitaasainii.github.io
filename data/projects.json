@@ -13,15 +13,15 @@
     "cover": "cover.jpg",
     "images": [
       "001.jpeg",
-      "01.jpg",
-      "02.jpg",
-      "03.jpg",
-      "04.jpg",
-      "05.jpg",
-      "06.jpg",
-      "07.jpg",
-      "08.jpg",
-      "09.jpg",
+      "1.jpg",
+      "2.jpg",
+      "3.jpg",
+      "4.jpg",
+      "5.jpg",
+      "6.jpg",
+      "7.jpg",
+      "8.jpg",
+      "9.jpg",
       "10.jpg",
       "11.jpg",
       "12.jpg",
@@ -34,7 +34,6 @@
       "19.jpg",
       "20.jpg",
       "21.jpg",
-      "22.jpg",
       "23.jpg",
       "24.jpg",
       "25.jpg",
@@ -84,7 +83,14 @@
       "13.jpg",
       "14.jpg",
       "15.jpg",
-      "16.jpg"
+      "16.jpg",
+      "17.jpg",
+      "18.jpg",
+      "19.jpg",
+      "20.jpg",
+      "21.jpg",
+      "22.jpg",
+      "23.jpg"
     ]
   },
   {
@@ -93,7 +99,7 @@
     "category": "Residential Project",
     "year": 2025,
     "location": "Noida, Uttar Pradesh",
-    "tagline": "Redefined Elegance: 4-BHK Home Renovation" ,
+    "tagline": "Redefined Elegance: 4-BHK Home Renovation",
     "description": [
       "Within this spacious 4-BHK residence in Noida, the renovation focused on transforming the bedroom into a private retreat of comfort and function. The space was reworked with a refreshed false ceiling design, incorporating cove and profile lighting to create a warm, layered ambience. Thoughtful space planning maximized every corner, ensuring smooth movement and a clutter-free layout. A custom-built wardrobe was designed for ample storage, complemented by a dedicated dresser area that blends functionality with everyday elegance. Together, these elements bring a sense of calm sophistication to the room — proving that a well-planned bedroom can feel like a home within a home."
     ],
@@ -148,8 +154,9 @@
     ],
     "cover": "cover.jpg",
     "images": [
-      "001.png",
+      "001.jpeg",
       "1.jpg",
+      "001.png",
       "2.jpg",
       "3.jpg",
       "4.jpg",
