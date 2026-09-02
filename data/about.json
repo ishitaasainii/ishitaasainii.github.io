@@ -1,6 +1,6 @@
 {
   "name": "Ishita Saini",
-  "role": "Interior designer | Interior Consultant ",
+  "role": "Interior designer | Interior Consultant",
   "lead": "An interior designer who thrives at the intersection of design and people.",
   "portrait": "portrait.jpg",
   "description": [
@@ -26,6 +26,10 @@
     {
       "label": "Selected work",
       "url": "index.html"
+    },
+    {
+      "label": "Experience",
+      "url": "experience.html"
     }
   ],
   "resume": "images/Ishita.pdf"

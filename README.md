@@ -1,8 +1,8 @@
 # Ishita Saini — portfolio website
 
-This is a simple website for an interior and architecture designer. You do **not** need to know how to code. Day to day, you only edit two files — `data/projects.json` for the work, and `data/about.json` for the About page — and add or replace photos in folders.
+This is a simple website for an interior and architecture designer. You do **not** need to know how to code. Day to day, you only edit the files in `data/` — `projects.json` for the work, `about.json` for the About page, and `experience.json` for the Experience page — and add or replace photos in folders.
 
-The pages themselves (`index.html`, `project.html`, `about.html`) only need changing if you want to rename the studio in the header and footer, or change the one-line statement on the homepage.
+The pages themselves (`index.html`, `project.html`, `about.html`, `experience.html`) only need changing if you want to rename the studio in the header and footer, or change the one-line statement on the homepage.
 
 ---
 
@@ -10,6 +10,7 @@ The pages themselves (`index.html`, `project.html`, `about.html`) only need chan
 
 - **Work** (the homepage) lists every project.
 - Clicking a project opens a page with photos and a short description.
+- **Experience** is a separate page with studio roles, education, and certifications. That page is filled from `data/experience.json`.
 - **About** is a separate page with a portrait and a bio. That page is filled from `data/about.json`.
 
 Projects are listed in the **same order** as they appear in `data/projects.json`. Put the project you want first at the **top** of that list.
@@ -123,11 +124,62 @@ What each field does:
 
 Save the file and refresh the About page.
 
+## How to edit the Experience page
+
+Open `data/experience.json`. A typical file looks like this:
+
+```json
+{
+  "lead": "A short paragraph at the top of the page.",
+  "resume": "images/Ishita.pdf",
+  "resumeLabel": "Download resume",
+  "roles": [
+    {
+      "title": "Interior Designer",
+      "org": "Studio name",
+      "location": "Noida, Uttar Pradesh",
+      "dates": "2025 — Present",
+      "highlights": [
+        "First bullet.",
+        "Second bullet."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "title": "Bachelor of Interior Design",
+      "org": "Unitedworld Institute of Design",
+      "location": "Gandhinagar, Gujarat",
+      "dates": "2020 — 2024"
+    }
+  ],
+  "academic": [
+    {
+      "title": "Project name",
+      "dates": "2022",
+      "summary": "One line about the project."
+    }
+  ],
+  "certifications": [
+    "Certificate name, 2023"
+  ]
+}
+```
+
+What each field does:
+
+- **`lead`** — the short paragraph under the heading.
+- **`roles`** — jobs and internships, newest first. Each bullet in `highlights` becomes its own line.
+- **`education`**, **`academic`**, **`certifications`** — listed under the studios.
+- **`resume`** — path to the PDF, same idea as on the About page.
+
+Save the file and refresh the Experience page.
+
 ## Changing the name in the header, or the homepage sentence
 
 These are still in the HTML files, not JSON:
 
-- Your name in the top-left of every page — edit `index.html`, `project.html`, and `about.html`.
+- Your name in the top-left of every page — edit `index.html`, `project.html`, `about.html`, and `experience.html`.
 - The short sentence under the name on the homepage — edit `index.html`.
 
 Search for the word `Ishita` if you are renaming the studio.
@@ -192,11 +244,11 @@ If you prefer to work on your computer, change the files locally, then upload th
 
 ## If something looks wrong
 
-- **The homepage says projects could not be loaded, or About could not be loaded.** Check that `data/projects.json` and `data/about.json` are in the `data` folder, not on the desktop. On GitHub, make sure you did not nest the whole site inside another folder.
+- **The homepage says projects could not be loaded, or About / Experience could not be loaded.** Check that `data/projects.json`, `data/about.json`, and `data/experience.json` are in the `data` folder, not on the desktop. On GitHub, make sure you did not nest the whole site inside another folder.
 - **A project page says “Project not found”.** The `id` in the JSON file must match the `?id=` part of the link, and must match the photo folder name.
 - **A picture is missing.** The file name in JSON (`cover.jpg`, `01.jpg`, …) must match the file in that project’s folder, including capital letters.
 - **The whole list disappeared after an edit.** There is probably a missing comma, an extra comma after the last project, or a missing `{` or `"`. Compare with another project block and undo until the list looks like the others. You can paste the file into [https://jsonlint.com](https://jsonlint.com) to find the typing mistake.
 
-You should never need to edit `js/app.js` or `css/style.css` to add or remove work, or to rewrite the About page.
+You should never need to edit `js/app.js` or `css/style.css` to add or remove work, or to rewrite the About or Experience pages.
 # ishitaasainii
 # ishitaasainii.github.io

@@ -3,6 +3,7 @@
 
   var DATA_URL = "data/projects.json";
   var ABOUT_URL = "data/about.json";
+  var EXPERIENCE_URL = "data/experience.json";
   var QUOTES_URL = "data/quotes.json";
   var QUOTE_ROTATE_MS = 8000;
   var WIKIQUOTE_PAGES = ["Architecture", "Design"];
@@ -35,11 +36,12 @@
     if (qs("#project-index")) return "index";
     if (qs("#project-root")) return "project";
     if (qs("#about-root")) return "about";
+    if (qs("#experience-root")) return "experience";
     return "other";
   }
 
-  function loadAbout() {
-    return fetch(ABOUT_URL).then(function (response) {
+  function loadJsonObject(url) {
+    return fetch(url).then(function (response) {
       if (!response.ok) {
         throw new Error("load");
       }
@@ -50,6 +52,14 @@
       }
       return data;
     });
+  }
+
+  function loadAbout() {
+    return loadJsonObject(ABOUT_URL);
+  }
+
+  function loadExperience() {
+    return loadJsonObject(EXPERIENCE_URL);
   }
 
   function queryId() {
@@ -424,27 +434,42 @@
   }
 
   function showLoadError(kind) {
-    var root =
-      kind === "project"
-        ? qs("#project-root")
-        : kind === "about"
-          ? qs("#about-root")
-          : qs("#project-index");
+    var roots = {
+      project: qs("#project-root"),
+      about: qs("#about-root"),
+      experience: qs("#experience-root"),
+      index: qs("#project-index")
+    };
+    var files = {
+      about: "data/about.json",
+      experience: "data/experience.json",
+      project: "data/projects.json",
+      index: "data/projects.json"
+    };
+    var titles = {
+      about: "About could not be loaded",
+      experience: "Experience could not be loaded",
+      project: "Projects could not be loaded",
+      index: "Projects could not be loaded"
+    };
+    var root = roots[kind] || roots.index;
     if (!root) return;
-    var file =
-      kind === "about" ? "data/about.json" : "data/projects.json";
+    var file = files[kind] || files.index;
     root.innerHTML = emptyMarkup(
-      kind === "about" ? "About could not be loaded" : "Projects could not be loaded",
+      titles[kind] || titles.index,
       "The content file could not be read. If you opened these pages as files on your computer, start a local folder server instead — the README explains how. If the site is already online, check that <code>" +
         file +
         "</code> is present and saved correctly.",
-      kind === "project" || kind === "about"
+      kind === "project" || kind === "about" || kind === "experience"
     );
     if (kind === "project") {
       document.title = "Projects could not be loaded — Ishita Saini";
     }
     if (kind === "about") {
       document.title = "About could not be loaded — Ishita Saini";
+    }
+    if (kind === "experience") {
+      document.title = "Experience could not be loaded — Ishita Saini";
     }
   }
 
@@ -542,6 +567,144 @@
             (links ? '<p class="about__cta">' + links + "</p>" : "") +
           "</div>" +
         "</div>" +
+      "</article>";
+  }
+
+  function listItems(items) {
+    if (!items || !items.length) return "";
+    return (
+      "<ul>" +
+      items
+        .map(function (item) {
+          return "<li>" + escapeHtml(item) + "</li>";
+        })
+        .join("") +
+      "</ul>"
+    );
+  }
+
+  function metaLine(parts) {
+    return parts
+      .filter(function (part) {
+        return part;
+      })
+      .map(function (part) {
+        return escapeHtml(part);
+      })
+      .join("  ·  ");
+  }
+
+  function resumeButton(data) {
+    var resumeUrl = data.resume || "";
+    if (!resumeUrl) return "";
+    var resumeLabel = data.resumeLabel || "Download resume";
+    var resumeName = data.resumeName || "Ishita-Saini-resume.pdf";
+    var resumeRemote = /^https?:/i.test(resumeUrl);
+    return (
+      '<a class="btn btn--solid" href="' +
+      escapeHtml(resumeUrl) +
+      '"' +
+      (resumeRemote
+        ? ' rel="noopener noreferrer" target="_blank"'
+        : ' download="' + escapeHtml(resumeName) + '"') +
+      ">" +
+      escapeHtml(resumeLabel) +
+      "</a>"
+    );
+  }
+
+  function renderRole(role) {
+    var meta = metaLine([role.title, role.location]);
+    return (
+      '<article class="xp-item">' +
+        '<header class="xp-item__head">' +
+          "<h2>" +
+          escapeHtml(role.org || role.title || "") +
+          "</h2>" +
+          (role.dates
+            ? '<p class="xp-item__year">' + escapeHtml(role.dates) + "</p>"
+            : "") +
+        "</header>" +
+        (meta ? '<p class="xp-item__meta">' + meta + "</p>" : "") +
+        listItems(role.highlights) +
+      "</article>"
+    );
+  }
+
+  function renderStudyItem(item) {
+    var org = metaLine([item.org, item.location]);
+    return (
+      '<article class="xp-study__item">' +
+        '<header class="xp-study__head">' +
+          "<h3>" +
+          escapeHtml(item.title || "") +
+          "</h3>" +
+          (item.dates
+            ? '<p class="xp-study__dates">' + escapeHtml(item.dates) + "</p>"
+            : "") +
+        "</header>" +
+        (org ? "<p>" + org + "</p>" : "") +
+        (item.summary ? "<p>" + escapeHtml(item.summary) + "</p>" : "") +
+      "</article>"
+    );
+  }
+
+  function renderStudyCol(title, items, asList) {
+    if (!items || !items.length) return "";
+    var body = asList
+      ? listItems(items)
+      : items.map(renderStudyItem).join("");
+    return (
+      '<section class="xp-study__col">' +
+        '<h2 class="section-label">' +
+        escapeHtml(title) +
+        "</h2>" +
+        body +
+      "</section>"
+    );
+  }
+
+  function renderExperience(experience) {
+    var root = qs("#experience-root");
+    if (!root) return;
+
+    document.title = "Experience — Ishita Saini";
+    var meta = document.querySelector('meta[name="description"]');
+    if (meta && experience.lead) {
+      meta.setAttribute("content", experience.lead);
+    }
+
+    var roles = (experience.roles || [])
+      .map(function (role) {
+        return renderRole(role);
+      })
+      .join("");
+    var education = renderStudyCol("Education", experience.education);
+    var study =
+      renderStudyCol("Academic projects", experience.academic) +
+      renderStudyCol("Certifications", experience.certifications, true);
+    var aside = education + study;
+    var resume = resumeButton(experience);
+
+    root.innerHTML =
+      '<article class="experience">' +
+        '<header class="xp-head">' +
+          '<p class="eyebrow">Studios &amp; study</p>' +
+          "<h1>Experience</h1>" +
+          (experience.lead
+            ? '<p class="xp-head__lead">' +
+              escapeHtml(experience.lead) +
+              "</p>"
+            : "") +
+          '<p class="about__actions">' +
+          resume +
+          '<a class="btn btn--ghost" href="index.html">View the work</a>' +
+          "</p>" +
+        "</header>" +
+        (aside ? '<aside class="xp-aside">' + aside + "</aside>" : "") +
+        '<section class="xp-list" aria-label="Roles">' +
+          (roles || "<p>No roles listed yet.</p>") +
+        "</section>" +
       "</article>";
   }
 
@@ -846,6 +1009,16 @@
       })
       .catch(function () {
         showLoadError("about");
+      });
+  }
+
+  if (page === "experience") {
+    loadExperience()
+      .then(function (experience) {
+        renderExperience(experience);
+      })
+      .catch(function () {
+        showLoadError("experience");
       });
   }
 })();

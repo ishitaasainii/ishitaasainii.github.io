@@ -33,9 +33,22 @@ PROJECT_KEYS = (
     "cover",
     "images",
 )
-ABOUT_KEYS = ("name", "role", "lead", "portrait", "description", "tools", "links")
+ABOUT_KEYS = ("name", "role", "lead", "portrait", "description", "tools", "links", "resume", "resumeLabel", "resumeName")
 QUOTE_KEYS = ("text", "author")
 LINK_KEYS = ("label", "url")
+EXPERIENCE_KEYS = (
+    "lead",
+    "resume",
+    "resumeLabel",
+    "resumeName",
+    "roles",
+    "education",
+    "academic",
+    "certifications",
+)
+ROLE_KEYS = ("title", "org", "location", "dates", "highlights")
+STUDY_KEYS = ("title", "org", "location", "dates")
+ACADEMIC_KEYS = ("title", "dates", "summary")
 
 
 def log(message: str) -> None:
@@ -347,22 +360,26 @@ def correct_about(data: object) -> tuple[object | None, list[str], list[str]]:
     if errors or name is None or role is None or lead is None or portrait is None or description is None or tools is None or links is None:
         return None, notes, errors
 
-    return (
-        ordered(
-            {
-                "name": name,
-                "role": role,
-                "lead": lead,
-                "portrait": portrait,
-                "description": description,
-                "tools": tools,
-                "links": links,
-            },
-            ABOUT_KEYS,
-        ),
-        notes,
-        errors,
-    )
+    payload = {
+        "name": name,
+        "role": role,
+        "lead": lead,
+        "portrait": portrait,
+        "description": description,
+        "tools": tools,
+        "links": links,
+    }
+    for key in ("resume", "resumeLabel", "resumeName"):
+        if key not in data:
+            continue
+        value = as_nonempty_string(data.get(key), key, errors)
+        if value:
+            payload[key] = value
+
+    if errors:
+        return None, notes, errors
+
+    return ordered(payload, ABOUT_KEYS), notes, errors
 
 
 def correct_quotes(data: object) -> tuple[object | None, list[str], list[str]]:
@@ -395,9 +412,142 @@ def correct_quotes(data: object) -> tuple[object | None, list[str], list[str]]:
     return corrected, notes, errors
 
 
+def as_optional_string(value: object, field: str, errors: list[str]) -> str | None:
+    if value is None:
+        return None
+    if not isinstance(value, str):
+        errors.append(f"{field} must be a string")
+        return None
+    text = " ".join(value.split())
+    return text or None
+
+
+def correct_role(entry: object, index: int) -> tuple[dict | None, list[str]]:
+    errors: list[str] = []
+    label = f"roles[{index}]"
+    if not isinstance(entry, dict):
+        return None, [f"{label} must be an object"]
+
+    title = as_nonempty_string(entry.get("title"), f"{label}.title", errors)
+    org = as_nonempty_string(entry.get("org"), f"{label}.org", errors)
+    dates = as_nonempty_string(entry.get("dates"), f"{label}.dates", errors)
+    location = as_optional_string(entry.get("location"), f"{label}.location", errors)
+    highlights = as_string_list(entry.get("highlights", []), f"{label}.highlights", errors)
+
+    if errors or title is None or org is None or dates is None or highlights is None:
+        return None, errors
+
+    payload = {
+        "title": title,
+        "org": org,
+        "dates": dates,
+        "highlights": highlights,
+    }
+    if location:
+        payload["location"] = location
+    return ordered(payload, ROLE_KEYS), errors
+
+
+def correct_education(entry: object, index: int) -> tuple[dict | None, list[str]]:
+    errors: list[str] = []
+    label = f"education[{index}]"
+    if not isinstance(entry, dict):
+        return None, [f"{label} must be an object"]
+
+    title = as_nonempty_string(entry.get("title"), f"{label}.title", errors)
+    org = as_nonempty_string(entry.get("org"), f"{label}.org", errors)
+    dates = as_nonempty_string(entry.get("dates"), f"{label}.dates", errors)
+    location = as_optional_string(entry.get("location"), f"{label}.location", errors)
+
+    if errors or title is None or org is None or dates is None:
+        return None, errors
+
+    payload = {"title": title, "org": org, "dates": dates}
+    if location:
+        payload["location"] = location
+    return ordered(payload, STUDY_KEYS), errors
+
+
+def correct_academic(entry: object, index: int) -> tuple[dict | None, list[str]]:
+    errors: list[str] = []
+    label = f"academic[{index}]"
+    if not isinstance(entry, dict):
+        return None, [f"{label} must be an object"]
+
+    title = as_nonempty_string(entry.get("title"), f"{label}.title", errors)
+    dates = as_optional_string(entry.get("dates"), f"{label}.dates", errors)
+    summary = as_nonempty_string(entry.get("summary"), f"{label}.summary", errors)
+
+    if errors or title is None or summary is None:
+        return None, errors
+
+    payload = {"title": title, "summary": summary}
+    if dates:
+        payload["dates"] = dates
+    return ordered(payload, ACADEMIC_KEYS), errors
+
+
+def correct_entry_list(raw: object, field: str, corrector) -> tuple[list[dict] | None, list[str]]:
+    errors: list[str] = []
+    if raw is None:
+        return [], errors
+    if not isinstance(raw, list):
+        return None, [f"{field} must be a list"]
+    items: list[dict] = []
+    for index, entry in enumerate(raw):
+        item, item_errors = corrector(entry, index)
+        errors.extend(item_errors)
+        if item is not None:
+            items.append(item)
+    return (None if errors else items), errors
+
+
+def correct_experience(data: object) -> tuple[object | None, list[str], list[str]]:
+    notes: list[str] = []
+    errors: list[str] = []
+    if not isinstance(data, dict) or isinstance(data, list):
+        return None, notes, ["experience.json must be an object"]
+
+    lead = as_nonempty_string(data.get("lead"), "lead", errors)
+    roles, role_errors = correct_entry_list(data.get("roles", []), "roles", correct_role)
+    education, edu_errors = correct_entry_list(data.get("education", []), "education", correct_education)
+    academic, academic_errors = correct_entry_list(data.get("academic", []), "academic", correct_academic)
+    errors.extend(role_errors)
+    errors.extend(edu_errors)
+    errors.extend(academic_errors)
+
+    certifications = as_string_list(data.get("certifications", []), "certifications", errors)
+
+    payload: dict[str, object] = {}
+    if lead:
+        payload["lead"] = lead
+    for key in ("resume", "resumeLabel", "resumeName"):
+        if key not in data:
+            continue
+        value = as_nonempty_string(data.get(key), key, errors)
+        if value:
+            payload[key] = value
+    if roles is not None:
+        payload["roles"] = roles
+    if education is not None:
+        payload["education"] = education
+    if academic is not None:
+        payload["academic"] = academic
+    if certifications is not None:
+        payload["certifications"] = certifications
+
+    if errors or lead is None or roles is None or education is None or academic is None or certifications is None:
+        return None, notes, errors
+    if not roles:
+        return None, notes, ["roles must contain at least one role"]
+
+    return ordered(payload, EXPERIENCE_KEYS), notes, errors
+
+
 HANDLERS = {
     "projects.json": correct_projects,
     "about.json": correct_about,
+    "experience.json": correct_experience,
     "quotes.json": correct_quotes,
 }
 

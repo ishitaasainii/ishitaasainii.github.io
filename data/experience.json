@@ -1,0 +1,82 @@
+{
+  "lead": "Two-plus years in space planning, concept development, and 3D visualisation — from the first client brief through drawings, site visits, and handover.",
+  "resume": "images/Ishita.pdf",
+  "resumeLabel": "Download resume",
+  "roles": [
+    {
+      "title": "Interior Designer",
+      "org": "Decorpot",
+      "location": "Noida, Uttar Pradesh",
+      "dates": "2025 — Present",
+      "highlights": [
+        "Consult with prospective clients during Experience Center visits to understand design requirements, space constraints, and aesthetic preferences.",
+        "Review and explain design quotations and scope of work so layouts and materials stay aligned with the brief.",
+        "Coordinate with sales and execution teams to keep client-facing details — layout, materials, timelines — accurate.",
+        "Conduct site visits to assess feasibility and support a smooth handoff from concept to execution."
+      ]
+    },
+    {
+      "title": "Interior Designer",
+      "org": "Livspace",
+      "location": "Noida, Uttar Pradesh",
+      "dates": "2024 — 2025",
+      "highlights": [
+        "Advised clients on space planning, layout, and material selection, turning requirements into functional, aesthetically driven concepts.",
+        "Prepared and presented design concepts and 3D visualisations to support decisions at key project stages.",
+        "Coordinated with vendors and internal teams to keep timelines, budgets, and client expectations aligned.",
+        "Managed a portfolio of six design projects at once, from first consultation through final handover."
+      ]
+    },
+    {
+      "title": "Interior Design Intern",
+      "org": "Gaurang Patel Architects",
+      "location": "Gandhinagar, Gujarat",
+      "dates": "2023",
+      "highlights": [
+        "Started by assisting senior designers with 2D construction drawings across ongoing projects.",
+        "Progressed to leading 2D and 3D design work for a multi-design project, from concept through detailing.",
+        "Visited project sites for on-ground coordination between design and execution teams."
+      ]
+    },
+    {
+      "title": "Freelance Interior Projects",
+      "org": "Gaurav Goklani and Associates",
+      "location": "Kota, Rajasthan",
+      "dates": "2022",
+      "highlights": [
+        "Contributed to residential interior and exterior design projects while completing coursework, handling concept development and rendering deliverables."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "title": "Bachelor of Interior Design",
+      "org": "Unitedworld Institute of Design",
+      "location": "Gandhinagar, Gujarat",
+      "dates": "2020 — 2024"
+    },
+    {
+      "title": "Higher Secondary Education",
+      "org": "V & C Patel English School",
+      "location": "Anand, Gujarat",
+      "dates": "2013 — 2019"
+    }
+  ],
+  "academic": [
+    {
+      "title": "Design Interventions for Public Spaces",
+      "dates": "2022",
+      "summary": "Interdisciplinary project on functional, community-oriented public space design."
+    },
+    {
+      "title": "Sustainability Development Goals",
+      "dates": "2021",
+      "summary": "Design project applying sustainability principles to interior and spatial planning."
+    }
+  ],
+  "certifications": [
+    "Appreciation Award — Gaurang Patel Architects, 2023",
+    "Advance Vastu Course — Kaarwan, 2023",
+    "Design Thinking Certificate, 2022"
+  ]
+}
