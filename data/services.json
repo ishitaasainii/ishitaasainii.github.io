@@ -1,0 +1,58 @@
+[
+  {
+    "title": "Space Planning and Layout Design",
+    "text": "Planning and organizing spaces to ensure better functionality, movement, and efficient use of available areas. Creating layouts that balance comfort, practicality, and aesthetics.",
+    "image": "images/whatido/space-planning.png",
+    "alt": "Space Planning and Layout Design",
+    "fit": "contain"
+  },
+  {
+    "title": "Concept Development and Theme Selection",
+    "text": "Developing a design concept based on the client's requirements, preferences, and lifestyle. Establishing a theme, mood, and visual direction that gives the space a unique identity.",
+    "image": "images/whatido/concept.jpeg",
+    "alt": "Concept Development and Theme Selection",
+    "fit": "contain"
+  },
+  {
+    "title": "Material and Finish Selection",
+    "text": "Selecting suitable materials, textures, colours, and finishes for floors, walls, ceilings, and furniture. Ensuring durability, functionality, and visual harmony throughout the space.",
+    "image": "images/whatido/material.jpeg",
+    "alt": "Material and Finish Selection",
+    "fit": "contain"
+  },
+  {
+    "title": "Technical Drawings and Documentation",
+    "text": "Preparing detailed working drawings, furniture layouts, electrical plans, ceiling plans, and construction details. Providing accurate technical information to guide contractors and execution teams.",
+    "image": "images/whatido/technical-drawing.jpeg",
+    "alt": "Technical Drawings and Documentation",
+    "fit": "contain"
+  },
+  {
+    "title": "3D Modelling and Visualisation",
+    "text": "Creating 3D models and realistic renders to help clients visualise the proposed design before execution. Communicating materials, colours, furniture, lighting, and spatial arrangements effectively.",
+    "image": "images/whatido/dmodeling.png",
+    "alt": "3D Modelling and Visualisation",
+    "fit": "contain"
+  },
+  {
+    "title": "Site Execution and Project Coordination",
+    "text": "Supervising the implementation of the design and coordinating with contractors, vendors, and other professionals. Ensuring that the work follows the approved drawings, materials, quality, and timeline.",
+    "image": "images/whatido/site-execution.jpeg",
+    "alt": "Site Execution and Project Coordination",
+    "fit": "contain"
+  },
+  {
+    "title": "Styling and Final Decoration",
+    "text": "Adding the finishing touches through artwork, accessories, plants, rugs, curtains, and decorative elements. Bringing all design components together to create a complete, balanced, and welcoming space.",
+    "image": "images/whatido/styling.jpeg",
+    "alt": "Styling and Final Decoration",
+    "fit": "contain"
+  },
+  {
+    "title": "Client Meetings and Requirement Understanding",
+    "text": "Conducting meetings with clients to understand their needs, preferences, lifestyle, budget, and project expectations. Discussing design concepts, presenting proposals, gathering feedback, and ensuring the design aligns with the client's vision.",
+    "image": "images/whatido/client.jpeg",
+    "alt": "Client Meetings and Requirement Understanding",
+    "fit": "contain"
+  }
+]

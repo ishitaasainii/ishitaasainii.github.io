@@ -19,50 +19,95 @@ Projects are listed in the **same order** as they appear in `data/projects.json`
 
 ## How to add a project
 
-### 1. Make a folder for the photos
+A project is a name in `data/projects.json`, plus folders of pictures. On the project page, each block is a **title**, a short **text**, and the **folder** of images that belongs with that title. You do not type every file name.
 
-Inside `images/projects/`, create a new folder. The folder name is the project’s **id** — use lowercase letters, numbers, and hyphens only, with no spaces.
+### 1. Make a folder for the project
 
-Example: for a project called “Lake House”, a good folder name is `lake-house`.
+Inside `images/projects/`, create a folder. You can use spaces. Example: `images/projects/Samarth city/`.
 
-### 2. Put the photos in that folder
+Inside that folder, make one folder per group of pictures, and drop the images in. Names can be anything (`Living room.png` is fine).
 
-Use ordinary JPG files. Name them exactly as you will write them in the project file, for example:
+```
+images/projects/Samarth city/
+  cover.jpg          ← the picture on the homepage
+  renders/           ← pictures for one title
+  board/             ← pictures for the next title
+  working drawing/
+```
 
-- `cover.jpg` — the small picture on the homepage list
-- `001.jpg` (any format: `.jpg`, `.jpeg`, `.png`, …) — optional. Shown first on the project page, full width across both columns
-- `01.jpg`, `02.jpg`, `03.jpg` — the remaining pictures, in two columns (as many as you like)
+`cover.jpg` sits in the project folder itself. It is the small picture on the Work page. JPG, JPEG, PNG, and WEBP all work. Videos (MP4) in a folder play on the page. PDF drawings in a folder become links.
 
-You can replace the grey placeholder pictures that are already in the sample project folders. Keep the same file names and the site will pick up the new photos automatically.
+### 2. Add the project to the list
 
-### 3. Add the project to the list
-
-Open `data/projects.json` in a text editor (Notepad on Windows, TextEdit on a Mac, or the editor on GitHub).
-
-Copy one of the existing project blocks and paste it where you want the project to appear. Change the words to match the new work. A block looks like this:
+Open `data/projects.json`. Copy one project block and paste it where you want it to appear. Projects are shown in this order.
 
 ```json
 {
-  "id": "lake-house",
-  "title": "Lake House",
-  "category": "Residential Design",
-  "year": 2026,
-  "location": "Ahmedabad, Gujarat",
-  "tagline": "A short line that appears under the title",
-  "description": ["First paragraph.", "Second paragraph."],
+  "id": "samarth-city",
+  "title": "Samarth City",
+  "category": "Residential Project",
+  "year": 2023,
+  "location": "Gandhinagar, Gujarat",
+  "tagline": "A short line under the title",
+  "description": ["The opening paragraphs for the whole project."],
+  "folder": "Samarth city",
   "cover": "cover.jpg",
-  "images": ["01.jpg", "02.jpg"]
+  "sections": [
+    {
+      "title": "Renders",
+      "text": "A sentence about this group of images.",
+      "dir": "renders"
+    },
+    {
+      "title": "Mood board",
+      "text": "A sentence about this group.",
+      "dir": "board"
+    }
+  ]
 }
 ```
 
-Rules that matter:
+What to change:
 
-- **`id` must match the folder name** exactly (`lake-house` with the folder `images/projects/lake-house/`).
-- **`cover` and `images`** are only file names, not full paths. The site looks for them inside that project’s folder.
-- Put a **comma** between projects, but **not** after the last project in the list.
-- Keep the square brackets `[ ... ]` around the whole list, and the curly braces `{ ... }` around each project.
+- **`id`** — short name used in the link. Lowercase, with hyphens, no spaces (`samarth-city`).
+- **`folder`** — the project directory inside `images/projects/`. This one may contain spaces (`Samarth city`). It does not have to match `id`.
+- **`cover`** — file name of the homepage picture, inside that folder. If it lives in a subfolder, write the subfolder too: `renders/Living room.png`.
+- **`description`** — paragraphs at the top of the project page. Each quoted line is its own paragraph.
+- **`sections`** — one block per title on the page, in the order you want them read.
+  - **`title`** — the heading for that group.
+  - **`text`** — the sentence or paragraph under the heading. A list of strings is also fine if you want more than one paragraph.
+  - **`dir`** — which folder to show. Write the folder name inside the project folder (`renders`). Use `""` when the pictures sit directly in the project folder, next to `cover.jpg`. If the pictures live somewhere else under `images/projects/`, write that path instead (`Project/rao residency/Renders`).
 
-Save the file. Refresh the website. The new project should appear in the list.
+Put a comma between projects, but not after the last one.
+
+### 3. Refresh the file list
+
+The site does not scan folders by itself. After you add, remove, or rename pictures, run this in the website folder:
+
+```
+python3 scripts/index-media.py
+```
+
+That rewrites `data/media.json`. Then refresh the browser. Titles and descriptions you added on a picture are kept.
+
+A picture with no note stays a file name. To show a title and description when someone hovers that picture, replace the name with an object. Leave the other pictures as names.
+
+```json
+"images": [
+  "plain-photo.png",
+  {
+    "file": "Sun and Wind Path-04-03.png",
+    "title": "Sun and wind",
+    "description": "How sun and wind move across the site."
+  }
+]
+```
+
+`title` and `description` are both optional. Use either one, or both. The picture blurs on hover and the words appear. Pictures without those fields stay as they are.
+
+If the site is on GitHub, upload the new pictures **and** the updated `data/media.json`.
+
+Older projects that still have an `"images"` list keep working. New work should use `sections` and `dir`.
 
 ---
 
@@ -77,17 +122,15 @@ If someone still has an old link to that project, they will see a short “Proje
 
 ---
 
-## How to replace the placeholder photos
+## How to replace photos
 
-Each sample project already has simple stand-in pictures (`cover.jpg`, `01.jpg`, and so on). To use real photographs:
+For a project that uses `sections`: drop the new pictures into the folder named in `dir` (for example `images/projects/saamarth-city/renders/`). File names can change. Then run `python3 scripts/index-media.py` and refresh.
 
-1. Open the project’s folder, for example `images/projects/saamarth-city/`.
-2. Drop in your photos using **the same file names**.
-3. You do not need to edit the JSON file if the names stay the same.
+For an older project that still lists `"images"`: keep the same file names when you replace a picture, or change the name in `data/projects.json` to match.
 
 For the About page portrait, replace `images/about/portrait.jpg` with your photo. Keep the same file name unless you also change `"portrait"` in `data/about.json`.
 
-JPG is the format to use. Square, landscape, or portrait photos are all fine; the layout will fit them.
+JPG, JPEG, PNG, and WEBP are all fine. Square, landscape, or portrait photos all fit the layout.
 
 ---
 
@@ -245,8 +288,8 @@ If you prefer to work on your computer, change the files locally, then upload th
 ## If something looks wrong
 
 - **The homepage says projects could not be loaded, or About / Experience could not be loaded.** Check that `data/projects.json`, `data/about.json`, and `data/experience.json` are in the `data` folder, not on the desktop. On GitHub, make sure you did not nest the whole site inside another folder.
-- **A project page says “Project not found”.** The `id` in the JSON file must match the `?id=` part of the link, and must match the photo folder name.
-- **A picture is missing.** The file name in JSON (`cover.jpg`, `01.jpg`, …) must match the file in that project’s folder, including capital letters.
+- **A project page says “Project not found”.** The `id` in the JSON file must match the `?id=` part of the link.
+- **A picture is missing.** Check that `dir` is the folder name you meant, then run `python3 scripts/index-media.py` so `data/media.json` includes the new files. For an older project that still lists `"images"`, the file name in JSON must match the file, including capital letters.
 - **The whole list disappeared after an edit.** There is probably a missing comma, an extra comma after the last project, or a missing `{` or `"`. Compare with another project block and undo until the list looks like the others. You can paste the file into [https://jsonlint.com](https://jsonlint.com) to find the typing mistake.
 
 You should never need to edit `js/app.js` or `css/style.css` to add or remove work, or to rewrite the About or Experience pages.
